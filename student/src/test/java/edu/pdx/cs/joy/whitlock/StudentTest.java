@@ -1,5 +1,6 @@
 package edu.pdx.cs.joy.whitlock;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,8 +19,18 @@ public class StudentTest
   @Test
   void studentNamedPatIsNamedPat() {
     String name = "Pat";
-    var pat = new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
+    var pat = createStudentNamed(name);
     assertThat(pat.getName(), equalTo(name));
+  }
+
+  @Test
+  void allStudentsSayThisClassIsTooMuchWork() {
+    Student student = createStudentNamed("Pat");
+    assertThat(student.says(), equalTo("This class is too much work"));
+  }
+
+  private static @NonNull Student createStudentNamed(String name) {
+    return new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
   }
 
 }
