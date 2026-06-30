@@ -1,6 +1,7 @@
 package edu.pdx.cs.joy.whitlock;
 
 import org.jspecify.annotations.NonNull;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,6 +17,11 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class StudentTest
 {
 
+  private static @NonNull Student createStudentNamed(String name) {
+    return new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
+  }
+
+
   @Test
   void studentNamedPatIsNamedPat() {
     String name = "Pat";
@@ -29,8 +35,15 @@ public class StudentTest
     assertThat(student.says(), equalTo("This class is too much work"));
   }
 
-  private static @NonNull Student createStudentNamed(String name) {
-    return new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
-  }
+  @Disabled
+  @Test
+  void daveStudent() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+    classes.add("Operating Systems");
+    classes.add("Java");
 
+    Student dave = new Student("Dave", classes, 3.64, "male");
+    assertThat(dave.toString(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java. He says \"This class is too much work\"."));
+  }
 }
