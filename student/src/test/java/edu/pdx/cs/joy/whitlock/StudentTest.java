@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
@@ -66,12 +67,8 @@ public class StudentTest
   @Test
   void negativeGPAThrowsInvalidRangeException() {
     double invalidGPA = -1.0;
-    try {
-      new Student("Name", new ArrayList<>(), invalidGPA, "male");
-      fail("Should have thrown an InvalidGPAException");
 
-    } catch (InvalidGPAException e) {
-      assertThat(e.getInvalidGPA(), equalTo(invalidGPA));
-    }
+    InvalidGPAException e = assertThrows(InvalidGPAException.class, () -> new Student("Name", new ArrayList<>(), invalidGPA, "male"));
+    assertThat(e.getInvalidGPA(), equalTo(invalidGPA));
   }
 }
