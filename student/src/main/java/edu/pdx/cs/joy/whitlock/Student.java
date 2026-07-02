@@ -77,7 +77,14 @@ public class Student extends Human {
     String gender = args[1];
     double gpa = Double.parseDouble(args[2]);
 
-    Student student = new Student(name, new ArrayList<>(), gpa, gender);
+    Student student;
+    try {
+      student = new Student(name, new ArrayList<>(), gpa, gender);
+
+    } catch (InvalidGPAException e) {
+      System.err.println("Invalid GPA: " + e.getInvalidGPA() + ".  Valid GPAS are in the range of 0.0-4.0");
+      return;
+    }
     System.out.println(student);
   }
 }
