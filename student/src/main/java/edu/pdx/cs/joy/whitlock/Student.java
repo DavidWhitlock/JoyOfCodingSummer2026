@@ -75,7 +75,14 @@ public class Student extends Human {
 
     String name = args[0];
     String gender = args[1];
-    double gpa = Double.parseDouble(args[2]);
+    double gpa;
+    try {
+      gpa = Double.parseDouble(args[2]);
+
+    } catch (NumberFormatException e) {
+      System.err.println("Invalid GPA: " + args[2] + ".  GPA must be a number.");
+      return;
+    }
 
     Student student;
     try {

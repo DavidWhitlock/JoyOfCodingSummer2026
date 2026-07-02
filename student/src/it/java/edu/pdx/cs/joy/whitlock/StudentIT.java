@@ -48,4 +48,11 @@ class StudentIT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardError(), containsString("Invalid GPA: -3.64.  Valid GPAS are in the range of 0.0-4.0"));
     assertThat(result.getTextWrittenToStandardOut(), is(emptyString()));
   }
+
+  @Test
+  void nonNumericGPAPrintsMessageToStandardError() {
+    InvokeMainTestCase.MainMethodResult result = invokeMain(Student.class, "Dave", "male", "non-numeric", "Algorithms", "Operating Systems", "Java");
+    assertThat(result.getTextWrittenToStandardError(), containsString("Invalid GPA: non-numeric.  GPA must be a number."));
+    assertThat(result.getTextWrittenToStandardOut(), is(emptyString()));
+  }
 }
