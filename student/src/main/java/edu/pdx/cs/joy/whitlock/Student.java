@@ -60,14 +60,17 @@ public class Student extends Human {
   public static void main(String[] args) {
     if (args.length == 0) {
       System.err.println("Missing name");
+      return;
     }
 
     if (args.length == 1) {
       System.err.println("Missing gender");
+      return;
     }
 
     if (args.length == 2) {
       System.err.println("Missing GPA");
+      return;
     }
 
     String name = args[0];
