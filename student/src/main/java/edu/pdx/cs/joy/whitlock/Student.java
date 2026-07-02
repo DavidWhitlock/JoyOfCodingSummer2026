@@ -58,6 +58,23 @@ public class Student extends Human {
    * standard out by invoking its <code>toString</code> method.
    */
   public static void main(String[] args) {
-    System.err.println("Missing required student information");
+    if (args.length == 0) {
+      System.err.println("Missing name");
+    }
+
+    if (args.length == 1) {
+      System.err.println("Missing gender");
+    }
+
+    if (args.length == 2) {
+      System.err.println("Missing GPA");
+    }
+
+    String name = args[0];
+    String gender = args[1];
+    double gpa = Double.parseDouble(args[2]);
+
+    Student student = new Student(name, new ArrayList<>(), gpa, gender);
+    System.out.println(student);
   }
 }
