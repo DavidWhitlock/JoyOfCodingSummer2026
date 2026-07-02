@@ -87,4 +87,14 @@ public class StudentTest
     Student student = new Student("Name", classes, 3.64, "male");
     assertThat(student.toString(), containsString(" and is taking 2 classes"));
   }
+
+  @Test
+  void gpaGreaterThan4point0ThrowsInvalidRangeException() {
+    double invalidGPA = 4.1;
+
+    InvalidGPAException e = assertThrows(InvalidGPAException.class, () -> new Student("Name", new ArrayList<>(), invalidGPA, "male"));
+    assertThat(e.getInvalidGPA(), equalTo(invalidGPA));
+  }
+
+
 }

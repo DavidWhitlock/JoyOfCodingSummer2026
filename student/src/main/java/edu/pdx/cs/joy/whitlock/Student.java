@@ -29,7 +29,7 @@ public class Student extends Human {
     super(name);
     this.classes = classes;
 
-    if (gpa < 0.0) {
+    if (gpa < 0.0 || gpa > 4.0) {
       throw new InvalidGPAException(gpa);
     }
 
