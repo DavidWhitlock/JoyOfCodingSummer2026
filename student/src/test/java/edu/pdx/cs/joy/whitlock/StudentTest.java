@@ -85,7 +85,7 @@ public class StudentTest
     classes.add("Operating Systems");
 
     Student student = new Student("Name", classes, 3.64, "male");
-    assertThat(student.toString(), containsString(" and is taking 2 classes:"));
+    assertThat(student.toString(), containsString(" and is taking 2 classes: Algorithms and Operating Systems."));
   }
 
   @Test
@@ -97,12 +97,23 @@ public class StudentTest
   }
 
   @Test
-  void toStringContainsOneClasses() {
+  void toStringContainsOneClass() {
     ArrayList<String> classes = new ArrayList<>();
     classes.add("Algorithms");
 
     Student student = new Student("Name", classes, 3.64, "male");
-    assertThat(student.toString(), containsString(" and is taking 1 class:"));
+    assertThat(student.toString(), containsString(" and is taking 1 class: Algorithms."));
+  }
+
+  @Test
+  void toStringContainsThreeClasses() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+    classes.add("Operating Systems");
+    classes.add("Java");
+
+    Student student = new Student("Name", classes, 3.64, "male");
+    assertThat(student.toString(), containsString(" and is taking 3 classes: Algorithms, Operating Systems, and Java."));
   }
 
 
