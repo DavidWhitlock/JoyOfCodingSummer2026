@@ -70,6 +70,20 @@ public class StudentTest
   }
 
   @Test
+  void studentCanHaveMinimumGpa() {
+    Student student = new Student("Pat", new ArrayList<>(), 0.0, "male");
+
+    assertThat(student.toString(), equalTo("Pat has a GPA of 0.00 and is taking 0 classes. He says \"This class is too much work\"."));
+  }
+
+  @Test
+  void studentCanHaveMaximumGpa() {
+    Student student = new Student("Pat", new ArrayList<>(), 4.0, "female");
+
+    assertThat(student.toString(), equalTo("Pat has a GPA of 4.00 and is taking 0 classes. She says \"This class is too much work\"."));
+  }
+
+  @Test
   void creatingStudentWithBlankNameThrowsIllegalArgumentException() {
     IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
       () -> new Student("", new ArrayList<>(), 3.64, "male"));
