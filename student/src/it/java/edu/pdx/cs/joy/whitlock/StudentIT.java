@@ -63,4 +63,11 @@ class StudentIT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardOut(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java.  He says \"This class is too much work\".\n"));
   }
 
+  @Test
+  void unsupportedGenderPrintsMessageToStandardError() {
+    InvokeMainTestCase.MainMethodResult result = invokeMain(Student.class, "Dave", "unsupported", "3.45");
+    assertThat(result.getTextWrittenToStandardError(), containsString("Unsupported Gender: unsupported"));
+    assertThat(result.getTextWrittenToStandardOut(), is(emptyString()));
+  }
+
 }

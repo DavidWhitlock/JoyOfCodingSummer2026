@@ -160,6 +160,10 @@ public class Student extends Human {
     } catch (InvalidGPAException e) {
       System.err.println("Invalid GPA: " + e.getInvalidGPA() + ".  Valid GPAS are in the range of 0.0-4.0");
       return;
+
+    } catch (UnsupportedGenderException e) {
+      System.err.println("Unsupported Gender: " + e.getUnsupportedGender());
+      return;
     }
     System.out.println(student);
   }
