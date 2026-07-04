@@ -67,7 +67,7 @@ public class Student extends Human {
    * <code>Student</code>.
    */
   public String toString() {
-    return this.getName() + " has a GPA of " + this.gpa + " and is taking " + getClassesDescription();
+    return this.getName() + " has a GPA of " + this.gpa + " and is taking " + getClassesDescription() + "  " + getPronoun() + " ";
   }
 
   private @NonNull String getClassesDescription() {
