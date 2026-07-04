@@ -1,7 +1,6 @@
 package edu.pdx.cs.joy.whitlock;
 
 import org.jspecify.annotations.NonNull;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ public class StudentTest
     assertThat(student.says(), equalTo("This class is too much work"));
   }
 
-  @Disabled
   @Test
   void daveStudent() {
     ArrayList<String> classes = new ArrayList<>();
@@ -46,7 +44,7 @@ public class StudentTest
     classes.add("Java");
 
     Student dave = new Student("Dave", classes, 3.64, "male");
-    assertThat(dave.toString(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java. He says \"This class is too much work\"."));
+    assertThat(dave.toString(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java.  He says \"This class is too much work\"."));
   }
 
   @Test
@@ -173,5 +171,11 @@ public class StudentTest
   void theyPronounInToString() {
     Student student = new Student("Name", new ArrayList<>(), 3.64, "other");
     assertThat(student.toString(), containsString(".  They say "));
+  }
+
+  @Test
+  void saysInToString() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "male");
+    assertThat(student.toString(), containsString(" \"This class is too much work\"."));
   }
 }

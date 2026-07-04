@@ -77,7 +77,9 @@ public class Student extends Human {
     if (this.gender == Gender.FEMALE || this.gender == Gender.MALE) {
       sb.append("s");
     }
-    sb.append(" ");
+    sb.append(" \"");
+    sb.append(this.says());
+    sb.append("\".");
     return sb.toString();
   }
 
