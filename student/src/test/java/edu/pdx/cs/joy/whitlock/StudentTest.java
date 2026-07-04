@@ -22,4 +22,22 @@ public class StudentTest
     assertThat(pat.getName(), equalTo(name));
   }
 
+  @Test
+  void allStudentsSayThisClassIsTooMuchWork() {
+    Student student = new Student("Pat", new ArrayList<>(), 0.0, "other");
+    assertThat(student.says(), equalTo("This class is too much work"));
+  }
+
+  @Test
+  void toStringDescribesMaleStudentTakingThreeClasses() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+    classes.add("Operating Systems");
+    classes.add("Java");
+
+    Student student = new Student("Dave", classes, 3.64, "male");
+
+    assertThat(student.toString(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java. He says \"This class is too much work\"."));
+  }
+
 }

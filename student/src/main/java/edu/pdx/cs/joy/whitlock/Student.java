@@ -2,12 +2,19 @@ package edu.pdx.cs.joy.whitlock;
 
 import edu.pdx.cs.joy.lang.Human;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a <code>Student</code>.
  */
 public class Student extends Human {
+  private static final String STUDENT_SAYS = "This class is too much work";
+
+  private final List<String> classes;
+  private final double gpa;
+  private final String gender;
 
   /**
    * Creates a new <code>Student</code>
@@ -24,6 +31,9 @@ public class Student extends Human {
    */
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
     super(name);
+    this.classes = new ArrayList<>(classes);
+    this.gpa = gpa;
+    this.gender = gender;
   }
 
   /**
@@ -31,15 +41,18 @@ public class Student extends Human {
    */
   @Override
   public String says() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return STUDENT_SAYS;
   }
 
   /**
    * Returns a <code>String</code> that describes this
    * <code>Student</code>.
    */
+  @Override
   public String toString() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return this.getName() + " has a GPA of " + formatGpa(this.gpa)
+      + " and is taking " + describeClasses()
+      + ". " + subjectPronoun() + " says \"" + this.says() + "\".";
   }
 
   /**
@@ -49,5 +62,40 @@ public class Student extends Human {
    */
   public static void main(String[] args) {
     System.err.println("Missing required student information");
+  }
+
+  private String describeClasses() {
+    return switch (this.classes.size()) {
+      case 0 -> "0 classes";
+      case 1 -> "1 class: " + this.classes.get(0);
+      default -> this.classes.size() + " classes: " + joinClasses();
+    };
+  }
+
+  private String joinClasses() {
+    if (this.classes.size() == 2) {
+      return this.classes.get(0) + " and " + this.classes.get(1);
+    }
+
+    StringBuilder builder = new StringBuilder();
+    for (int i = 0; i < this.classes.size(); i++) {
+      if (i > 0) {
+        builder.append(i == this.classes.size() - 1 ? ", and " : ", ");
+      }
+      builder.append(this.classes.get(i));
+    }
+    return builder.toString();
+  }
+
+  private String subjectPronoun() {
+    return switch (this.gender.toLowerCase()) {
+      case "male" -> "He";
+      case "female" -> "She";
+      default -> "They";
+    };
+  }
+
+  private String formatGpa(double gpa) {
+    return new DecimalFormat("0.00").format(gpa);
   }
 }
