@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class Student extends Human {
   private static final String STUDENT_SAYS = "This class is too much work";
+  private static final double MIN_GPA = 0.0;
+  private static final double MAX_GPA = 4.0;
 
   private final List<String> classes;
   private final double gpa;
@@ -30,10 +32,11 @@ public class Student extends Human {
    *        The student's gender ("male", "female", or "other", case-insensitive)
    */
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
-    super(name);
+    super(validateName(name));
+    validateGpa(gpa);
+    this.gender = validateGender(gender);
     this.classes = new ArrayList<>(classes);
     this.gpa = gpa;
-    this.gender = gender;
   }
 
   /**
@@ -102,7 +105,7 @@ public class Student extends Human {
   }
 
   private String subjectPronoun() {
-    return switch (this.gender.toLowerCase()) {
+    return switch (this.gender) {
       case "male" -> "He";
       case "female" -> "She";
       default -> "They";
@@ -111,5 +114,31 @@ public class Student extends Human {
 
   private String formatGpa(double gpa) {
     return new DecimalFormat("0.00").format(gpa);
+  }
+
+  private static String validateName(String name) {
+    if (name == null || name.isBlank()) {
+      throw new IllegalArgumentException("Student name is required");
+    }
+
+    return name;
+  }
+
+  private static void validateGpa(double gpa) {
+    if (gpa < MIN_GPA || gpa > MAX_GPA) {
+      throw new IllegalArgumentException("GPA must be between 0.0 and 4.0");
+    }
+  }
+
+  private static String validateGender(String gender) {
+    if (gender == null) {
+      throw new IllegalArgumentException("Gender must be male, female, or other");
+    }
+
+    String normalizedGender = gender.toLowerCase();
+    return switch (normalizedGender) {
+      case "male", "female", "other" -> normalizedGender;
+      default -> throw new IllegalArgumentException("Gender must be male, female, or other");
+    };
   }
 }
