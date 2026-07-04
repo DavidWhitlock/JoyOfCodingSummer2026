@@ -158,9 +158,20 @@ public class StudentTest
   }
 
   @Test
-  void pronounInToString() {
+  void shePronounInToString() {
     Student student = new Student("Name", new ArrayList<>(), 3.64, "Female");
-    assertThat(student.toString(), containsString(".  She "));
+    assertThat(student.toString(), containsString(".  She says "));
+  }
 
+  @Test
+  void hePronounInToString() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "male");
+    assertThat(student.toString(), containsString(".  He says "));
+  }
+
+  @Test
+  void theyPronounInToString() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "other");
+    assertThat(student.toString(), containsString(".  They say "));
   }
 }

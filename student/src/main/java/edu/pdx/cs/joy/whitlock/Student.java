@@ -67,7 +67,18 @@ public class Student extends Human {
    * <code>Student</code>.
    */
   public String toString() {
-    return this.getName() + " has a GPA of " + this.gpa + " and is taking " + getClassesDescription() + "  " + getPronoun() + " ";
+    StringBuilder sb = new StringBuilder()
+      .append(this.getName())
+      .append(" has a GPA of ")
+      .append(this.gpa)
+      .append(" and is taking ")
+      .append(getClassesDescription()).append("  ")
+      .append(getPronoun()).append(" say");
+    if (this.gender == Gender.FEMALE || this.gender == Gender.MALE) {
+      sb.append("s");
+    }
+    sb.append(" ");
+    return sb.toString();
   }
 
   private @NonNull String getClassesDescription() {
