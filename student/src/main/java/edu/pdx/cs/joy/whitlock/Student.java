@@ -4,6 +4,7 @@ import edu.pdx.cs.joy.lang.Human;
 import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class represents a <code>Student</code>.
@@ -150,9 +151,11 @@ public class Student extends Human {
       return;
     }
 
+    ArrayList<String> classes = new ArrayList<>(Arrays.asList(args).subList(3, args.length));
+
     Student student;
     try {
-      student = new Student(name, new ArrayList<>(), gpa, gender);
+      student = new Student(name, classes, gpa, gender);
 
     } catch (InvalidGPAException e) {
       System.err.println("Invalid GPA: " + e.getInvalidGPA() + ".  Valid GPAS are in the range of 0.0-4.0");

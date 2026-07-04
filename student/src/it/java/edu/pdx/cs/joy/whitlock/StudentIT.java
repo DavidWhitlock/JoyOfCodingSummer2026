@@ -55,4 +55,12 @@ class StudentIT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardError(), containsString("Invalid GPA: non-numeric.  GPA must be a number."));
     assertThat(result.getTextWrittenToStandardOut(), is(emptyString()));
   }
+
+  @Test
+  void daveStudent() {
+    InvokeMainTestCase.MainMethodResult result = invokeMain(Student.class, "Dave", "male", "3.64", "Algorithms", "Operating Systems", "Java");
+    assertThat(result.getTextWrittenToStandardError(), is(emptyString()));
+    assertThat(result.getTextWrittenToStandardOut(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java.  He says \"This class is too much work\".\n"));
+  }
+
 }
