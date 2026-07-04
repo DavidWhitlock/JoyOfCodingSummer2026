@@ -64,32 +64,8 @@ public class Student extends Human {
    * standard out by invoking its <code>toString</code> method.
    */
   public static void main(String[] args) {
-    if (args.length == 0) {
-      System.err.println("Missing required student information");
-      return;
-    }
-
-    if (args.length == 1) {
-      System.err.println("Missing gender");
-      return;
-    }
-
-    if (args.length == 2) {
-      System.err.println("Missing GPA");
-      return;
-    }
-
-    String name = args[0];
-    String gender = args[1];
-
     try {
-      double gpa = Double.parseDouble(args[2]);
-      ArrayList<String> classes = new ArrayList<>();
-      for (int i = 3; i < args.length; i++) {
-        classes.add(args[i]);
-      }
-
-      Student student = new Student(name, classes, gpa, gender);
+      Student student = createStudentFromCommandLine(args);
       System.out.println(student);
 
     } catch (NumberFormatException ex) {
@@ -97,6 +73,30 @@ public class Student extends Human {
 
     } catch (IllegalArgumentException ex) {
       System.err.println(ex.getMessage());
+    }
+  }
+
+  private static Student createStudentFromCommandLine(String[] args) {
+    validateRequiredCommandLineArguments(args);
+
+    String name = args[0];
+    String gender = args[1];
+    double gpa = Double.parseDouble(args[2]);
+    ArrayList<String> classes = new ArrayList<>();
+    for (int i = 3; i < args.length; i++) {
+      classes.add(args[i]);
+    }
+
+    return new Student(name, classes, gpa, gender);
+  }
+
+  private static void validateRequiredCommandLineArguments(String[] args) {
+    switch (args.length) {
+      case 0 -> throw new IllegalArgumentException("Missing required student information");
+      case 1 -> throw new IllegalArgumentException("Missing gender");
+      case 2 -> throw new IllegalArgumentException("Missing GPA");
+      default -> {
+      }
     }
   }
 
