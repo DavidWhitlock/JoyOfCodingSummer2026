@@ -12,7 +12,7 @@ public class Student extends Human {
 
   private final double gpa;
   private final ArrayList<String> classes;
-  private final String gender;
+  private final Gender gender;
 
   /**
    * Creates a new <code>Student</code>
@@ -30,13 +30,28 @@ public class Student extends Human {
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
     super(name);
     this.classes = classes;
-    this.gender = gender;
+    this.gender = getGenderFor(gender);
 
     if (gpa < 0.0 || gpa > 4.0) {
       throw new InvalidGPAException(gpa);
     }
 
     this.gpa = gpa;
+  }
+
+  private Gender getGenderFor(String gender) {
+    if (gender.equalsIgnoreCase("Female")) {
+      return Gender.FEMALE;
+
+    } else if (gender.equalsIgnoreCase("Male")) {
+      return Gender.MALE;
+
+    } else if (gender.equalsIgnoreCase("Other")) {
+      return Gender.OTHER;
+
+    } else {
+      throw new UnsupportedOperationException("Unsupported gender: " + gender);
+    }
   }
 
   /**
@@ -135,10 +150,9 @@ public class Student extends Human {
 
   public String getPronoun() {
     return switch (this.gender) {
-      case "female" -> "She";
-      case "other" -> "They";
-      case "male" -> "He";
-      default -> throw new UnsupportedOperationException("Unsupported gender: " + this.gender);
+      case FEMALE -> "She";
+      case MALE -> "He";
+      case OTHER -> "They";
     };
   }
 }

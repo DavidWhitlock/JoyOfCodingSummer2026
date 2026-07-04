@@ -21,7 +21,7 @@ public class StudentTest
 {
 
   private static @NonNull Student createStudentNamed(String name) {
-    return new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
+    return new Student(name, new ArrayList<>(), 0.0, "other");
   }
 
 
@@ -144,5 +144,11 @@ public class StudentTest
   void otherPronounIsThey() {
     Student student = new Student("Name", new ArrayList<>(), 3.64, "other");
     assertThat(student.getPronoun(), equalTo("They"));
+  }
+
+  @Test
+  void mixedCaseFemaleGender() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "Female");
+    assertThat(student.getPronoun(), equalTo("She"));
   }
 }
