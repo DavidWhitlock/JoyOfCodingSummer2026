@@ -116,5 +116,33 @@ public class StudentTest
     assertThat(student.toString(), containsString(" and is taking 3 classes: Algorithms, Operating Systems, and Java."));
   }
 
+  @Test
+  void toStringContainsFourClasses() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+    classes.add("Operating Systems");
+    classes.add("Java");
+    classes.add("AI");
 
+    Student student = new Student("Name", classes, 3.64, "male");
+    assertThat(student.toString(), containsString(" and is taking 4 classes: Algorithms, Operating Systems, Java, and AI."));
+  }
+
+  @Test
+  void femalePronounIsShe() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "female");
+    assertThat(student.getPronoun(), equalTo("She"));
+  }
+
+  @Test
+  void malePronounIsHe() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "male");
+    assertThat(student.getPronoun(), equalTo("He"));
+  }
+
+  @Test
+  void otherPronounIsThey() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "other");
+    assertThat(student.getPronoun(), equalTo("They"));
+  }
 }
