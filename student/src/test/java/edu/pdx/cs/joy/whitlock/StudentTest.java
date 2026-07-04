@@ -75,7 +75,7 @@ public class StudentTest
   @Test
   void toStringContainsZeroClasses() {
     Student student = new Student("Name", new ArrayList<>(), 3.64, "male");
-    assertThat(student.toString(), containsString(" and is taking 0 classes"));
+    assertThat(student.toString(), containsString(" and is taking 0 classes."));
   }
 
   @Test
@@ -85,7 +85,7 @@ public class StudentTest
     classes.add("Operating Systems");
 
     Student student = new Student("Name", classes, 3.64, "male");
-    assertThat(student.toString(), containsString(" and is taking 2 classes"));
+    assertThat(student.toString(), containsString(" and is taking 2 classes:"));
   }
 
   @Test
@@ -94,6 +94,15 @@ public class StudentTest
 
     InvalidGPAException e = assertThrows(InvalidGPAException.class, () -> new Student("Name", new ArrayList<>(), invalidGPA, "male"));
     assertThat(e.getInvalidGPA(), equalTo(invalidGPA));
+  }
+
+  @Test
+  void toStringContainsOneClasses() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+
+    Student student = new Student("Name", classes, 3.64, "male");
+    assertThat(student.toString(), containsString(" and is taking 1 class:"));
   }
 
 

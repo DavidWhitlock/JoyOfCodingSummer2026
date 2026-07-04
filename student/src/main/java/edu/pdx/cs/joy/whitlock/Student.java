@@ -1,6 +1,7 @@
 package edu.pdx.cs.joy.whitlock;
 
 import edu.pdx.cs.joy.lang.Human;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,24 @@ public class Student extends Human {
    * <code>Student</code>.
    */
   public String toString() {
-    return this.getName() + " has a GPA of " + this.gpa + " and is taking " + this.classes.size() + " classes";
+    return this.getName() + " has a GPA of " + this.gpa + " and is taking " + getClassesDescription();
+  }
+
+  private @NonNull String getClassesDescription() {
+    int numberOfClasses = this.classes.size();
+    StringBuilder sb = new StringBuilder().append(numberOfClasses);
+    sb.append(" class");
+    if (numberOfClasses == 0) {
+      sb.append("es.");
+
+    } else if (numberOfClasses == 1) {
+      sb.append(": ");
+
+    } else {
+      sb.append("es: ");
+    }
+
+    return sb.toString();
   }
 
   /**
