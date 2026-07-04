@@ -55,7 +55,7 @@ public class Student extends Human {
   public String toString() {
     return this.getName() + " has a GPA of " + formatGpa(this.gpa)
       + " and is taking " + describeClasses()
-      + ". " + subjectPronoun() + " says \"" + this.says() + "\".";
+      + ". " + speechDescription() + " \"" + this.says() + "\".";
   }
 
   /**
@@ -64,21 +64,40 @@ public class Student extends Human {
    * standard out by invoking its <code>toString</code> method.
    */
   public static void main(String[] args) {
-    if (args.length < 3) {
+    if (args.length == 0) {
       System.err.println("Missing required student information");
+      return;
+    }
+
+    if (args.length == 1) {
+      System.err.println("Missing gender");
+      return;
+    }
+
+    if (args.length == 2) {
+      System.err.println("Missing GPA");
       return;
     }
 
     String name = args[0];
     String gender = args[1];
-    double gpa = Double.parseDouble(args[2]);
-    ArrayList<String> classes = new ArrayList<>();
-    for (int i = 3; i < args.length; i++) {
-      classes.add(args[i]);
-    }
 
-    Student student = new Student(name, classes, gpa, gender);
-    System.out.println(student);
+    try {
+      double gpa = Double.parseDouble(args[2]);
+      ArrayList<String> classes = new ArrayList<>();
+      for (int i = 3; i < args.length; i++) {
+        classes.add(args[i]);
+      }
+
+      Student student = new Student(name, classes, gpa, gender);
+      System.out.println(student);
+
+    } catch (NumberFormatException ex) {
+      System.err.println("GPA must be a number");
+
+    } catch (IllegalArgumentException ex) {
+      System.err.println(ex.getMessage());
+    }
   }
 
   private String describeClasses() {
@@ -109,6 +128,13 @@ public class Student extends Human {
       case "male" -> "He";
       case "female" -> "She";
       default -> "They";
+    };
+  }
+
+  private String speechDescription() {
+    return switch (this.gender) {
+      case "other" -> "They say";
+      default -> subjectPronoun() + " says";
     };
   }
 

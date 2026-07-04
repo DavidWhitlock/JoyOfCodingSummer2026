@@ -42,6 +42,34 @@ public class StudentTest
   }
 
   @Test
+  void toStringDescribesStudentTakingZeroClasses() {
+    Student student = new Student("Lisa", new ArrayList<>(), 3.42, "female");
+
+    assertThat(student.toString(), equalTo("Lisa has a GPA of 3.42 and is taking 0 classes. She says \"This class is too much work\"."));
+  }
+
+  @Test
+  void toStringDescribesStudentTakingOneClass() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Java");
+
+    Student student = new Student("Pat", classes, 3.50, "other");
+
+    assertThat(student.toString(), equalTo("Pat has a GPA of 3.50 and is taking 1 class: Java. They say \"This class is too much work\"."));
+  }
+
+  @Test
+  void toStringDescribesStudentTakingTwoClasses() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Java");
+    classes.add("Operating Systems");
+
+    Student student = new Student("Pat", classes, 3.50, "other");
+
+    assertThat(student.toString(), equalTo("Pat has a GPA of 3.50 and is taking 2 classes: Java and Operating Systems. They say \"This class is too much work\"."));
+  }
+
+  @Test
   void creatingStudentWithBlankNameThrowsIllegalArgumentException() {
     IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
       () -> new Student("", new ArrayList<>(), 3.64, "male"));
