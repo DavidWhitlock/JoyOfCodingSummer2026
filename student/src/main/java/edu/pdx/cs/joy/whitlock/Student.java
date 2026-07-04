@@ -50,7 +50,7 @@ public class Student extends Human {
       return Gender.OTHER;
 
     } else {
-      throw new UnsupportedOperationException("Unsupported gender: " + gender);
+      throw new UnsupportedGenderException(gender);
     }
   }
 

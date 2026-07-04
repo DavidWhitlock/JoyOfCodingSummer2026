@@ -151,4 +151,10 @@ public class StudentTest
     Student student = new Student("Name", new ArrayList<>(), 3.64, "Female");
     assertThat(student.getPronoun(), equalTo("She"));
   }
+
+  @Test
+  void unsupportedGenderThrowsUnsupportedGenderException() {
+    UnsupportedGenderException ex = assertThrows(UnsupportedGenderException.class, () -> new Student("Name", new ArrayList<>(), 3.64, "unsupported"));
+    assertThat(ex.getUnsupportedGender(), equalTo("unsupported"));
+  }
 }
