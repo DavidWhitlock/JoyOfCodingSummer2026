@@ -4,6 +4,7 @@ import edu.pdx.cs.joy.lang.Human;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -82,10 +83,7 @@ public class Student extends Human {
     String name = args[0];
     String gender = args[1];
     double gpa = Double.parseDouble(args[2]);
-    ArrayList<String> classes = new ArrayList<>();
-    for (int i = 3; i < args.length; i++) {
-      classes.add(args[i]);
-    }
+    ArrayList<String> classes = new ArrayList<>(Arrays.asList(args).subList(3, args.length));
 
     return new Student(name, classes, gpa, gender);
   }
@@ -103,7 +101,7 @@ public class Student extends Human {
   private String describeClasses() {
     return switch (this.classes.size()) {
       case 0 -> "0 classes";
-      case 1 -> "1 class: " + this.classes.get(0);
+      case 1 -> "1 class: " + this.classes.getFirst();
       default -> this.classes.size() + " classes: " + joinClasses();
     };
   }
@@ -132,10 +130,10 @@ public class Student extends Human {
   }
 
   private String speechDescription() {
-    return switch (this.gender) {
-      case "other" -> "They say";
-      default -> subjectPronoun() + " says";
-    };
+    if (this.gender.equals("other")) {
+      return "They say";
+    }
+    return subjectPronoun() + " says";
   }
 
   private String formatGpa(double gpa) {
