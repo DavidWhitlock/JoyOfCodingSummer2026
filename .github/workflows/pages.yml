@@ -42,6 +42,7 @@ jobs:
           path: target/staging/scm:git:git@github.com:DavidWhitlock/JoyOfCodingSummer2026.git
 
   deploy:
+    if: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
