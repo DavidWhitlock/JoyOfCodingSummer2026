@@ -79,6 +79,7 @@ accordingly
         <version>3.1.0</version>
         <configuration>
           <scmBranch>gh-pages</scmBranch>
+          <pubScmUrl>scm:git:git@github.com:DavidWhitlock/JoyOfCodingSummer2026.git</pubScmUrl>
           <tryUpdate>true</tryUpdate>
           <addUniqueDirectory>true</addUniqueDirectory>
         </configuration>
