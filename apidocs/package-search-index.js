@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"advanced"},{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"beginner"},{"l":"edu.pdx.cs.joy.whitlock"},{"l":"intermediate"},{"l":"java7"},{"l":"java8"}];updateSearchResults();
