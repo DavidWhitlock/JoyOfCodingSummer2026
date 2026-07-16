@@ -68,12 +68,12 @@ accordingly
   </repositories>
   <build>
     <plugins>
-      <plugin>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <topSiteURL>scm:git:git@github.com:DavidWhitlock/JoyOfCodingSummer2026.git</topSiteURL>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <artifactId>maven-site-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <topSiteURL>scm:git:git@github.com:DavidWhitlock/JoyOfCodingSummer2026.git</topSiteURL>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
       <plugin>
         <artifactId>maven-scm-publish-plugin</artifactId>
         <version>3.1.0</version>
