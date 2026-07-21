@@ -1,7 +1,6 @@
 package edu.pdx.cs.joy.whitlock;
 
 import org.jspecify.annotations.NonNull;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Unit tests for the Student class.  In addition to the JUnit annotations,
@@ -21,7 +19,7 @@ public class StudentTest
 {
 
   private static @NonNull Student createStudentNamed(String name) {
-    return new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
+    return new Student(name, new ArrayList<>(), 0.0, "other");
   }
 
 
@@ -38,7 +36,6 @@ public class StudentTest
     assertThat(student.says(), equalTo("This class is too much work"));
   }
 
-  @Disabled
   @Test
   void daveStudent() {
     ArrayList<String> classes = new ArrayList<>();
@@ -47,7 +44,7 @@ public class StudentTest
     classes.add("Java");
 
     Student dave = new Student("Dave", classes, 3.64, "male");
-    assertThat(dave.toString(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java. He says \"This class is too much work\"."));
+    assertThat(dave.toString(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java.  He says \"This class is too much work\"."));
   }
 
   @Test
@@ -75,7 +72,7 @@ public class StudentTest
   @Test
   void toStringContainsZeroClasses() {
     Student student = new Student("Name", new ArrayList<>(), 3.64, "male");
-    assertThat(student.toString(), containsString(" and is taking 0 classes"));
+    assertThat(student.toString(), containsString(" and is taking 0 classes."));
   }
 
   @Test
@@ -85,7 +82,7 @@ public class StudentTest
     classes.add("Operating Systems");
 
     Student student = new Student("Name", classes, 3.64, "male");
-    assertThat(student.toString(), containsString(" and is taking 2 classes"));
+    assertThat(student.toString(), containsString(" and is taking 2 classes: Algorithms and Operating Systems."));
   }
 
   @Test
@@ -96,5 +93,89 @@ public class StudentTest
     assertThat(e.getInvalidGPA(), equalTo(invalidGPA));
   }
 
+  @Test
+  void toStringContainsOneClass() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
 
+    Student student = new Student("Name", classes, 3.64, "male");
+    assertThat(student.toString(), containsString(" and is taking 1 class: Algorithms."));
+  }
+
+  @Test
+  void toStringContainsThreeClasses() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+    classes.add("Operating Systems");
+    classes.add("Java");
+
+    Student student = new Student("Name", classes, 3.64, "male");
+    assertThat(student.toString(), containsString(" and is taking 3 classes: Algorithms, Operating Systems, and Java."));
+  }
+
+  @Test
+  void toStringContainsFourClasses() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+    classes.add("Operating Systems");
+    classes.add("Java");
+    classes.add("AI");
+
+    Student student = new Student("Name", classes, 3.64, "male");
+    assertThat(student.toString(), containsString(" and is taking 4 classes: Algorithms, Operating Systems, Java, and AI."));
+  }
+
+  @Test
+  void femalePronounIsShe() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "female");
+    assertThat(student.getPronoun(), equalTo("She"));
+  }
+
+  @Test
+  void malePronounIsHe() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "male");
+    assertThat(student.getPronoun(), equalTo("He"));
+  }
+
+  @Test
+  void otherPronounIsThey() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "other");
+    assertThat(student.getPronoun(), equalTo("They"));
+  }
+
+  @Test
+  void mixedCaseFemaleGender() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "Female");
+    assertThat(student.getPronoun(), equalTo("She"));
+  }
+
+  @Test
+  void unsupportedGenderThrowsUnsupportedGenderException() {
+    UnsupportedGenderException ex = assertThrows(UnsupportedGenderException.class, () -> new Student("Name", new ArrayList<>(), 3.64, "unsupported"));
+    assertThat(ex.getUnsupportedGender(), equalTo("unsupported"));
+  }
+
+  @Test
+  void shePronounInToString() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "Female");
+    assertThat(student.toString(), containsString(".  She says "));
+  }
+
+  @Test
+  void hePronounInToString() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "male");
+    assertThat(student.toString(), containsString(".  He says "));
+  }
+
+  @Test
+  void theyPronounInToString() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "other");
+    assertThat(student.toString(), containsString(".  They say "));
+  }
+
+  @Test
+  void saysInToString() {
+    Student student = new Student("Name", new ArrayList<>(), 3.64, "male");
+    assertThat(student.toString(), containsString(" \"This class is too much work\"."));
+  }
 }

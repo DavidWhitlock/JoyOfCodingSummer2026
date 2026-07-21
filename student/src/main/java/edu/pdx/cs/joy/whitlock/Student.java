@@ -1,8 +1,10 @@
 package edu.pdx.cs.joy.whitlock;
 
 import edu.pdx.cs.joy.lang.Human;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class represents a <code>Student</code>.
@@ -11,6 +13,7 @@ public class Student extends Human {
 
   private final double gpa;
   private final ArrayList<String> classes;
+  private final Gender gender;
 
   /**
    * Creates a new <code>Student</code>
@@ -28,12 +31,28 @@ public class Student extends Human {
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
     super(name);
     this.classes = classes;
+    this.gender = getGenderFor(gender);
 
     if (gpa < 0.0 || gpa > 4.0) {
       throw new InvalidGPAException(gpa);
     }
 
     this.gpa = gpa;
+  }
+
+  private Gender getGenderFor(String gender) {
+    if (gender.equalsIgnoreCase("Female")) {
+      return Gender.FEMALE;
+
+    } else if (gender.equalsIgnoreCase("Male")) {
+      return Gender.MALE;
+
+    } else if (gender.equalsIgnoreCase("Other")) {
+      return Gender.OTHER;
+
+    } else {
+      throw new UnsupportedGenderException(gender);
+    }
   }
 
   /**
@@ -49,7 +68,55 @@ public class Student extends Human {
    * <code>Student</code>.
    */
   public String toString() {
-    return this.getName() + " has a GPA of " + this.gpa + " and is taking " + this.classes.size() + " classes";
+    StringBuilder sb = new StringBuilder()
+      .append(this.getName())
+      .append(" has a GPA of ")
+      .append(this.gpa)
+      .append(" and is taking ")
+      .append(getClassesDescription()).append("  ")
+      .append(getPronoun()).append(" say");
+    if (this.gender == Gender.FEMALE || this.gender == Gender.MALE) {
+      sb.append("s");
+    }
+    sb.append(" \"");
+    sb.append(this.says());
+    sb.append("\".");
+    return sb.toString();
+  }
+
+  private @NonNull String getClassesDescription() {
+    int numberOfClasses = this.classes.size();
+    StringBuilder sb = new StringBuilder().append(numberOfClasses);
+    sb.append(" class");
+    if (numberOfClasses == 0) {
+      sb.append("es");
+
+    } else if (numberOfClasses == 1) {
+      sb.append(": ");
+      sb.append(classes.getFirst());
+
+    } else if (numberOfClasses == 2) {
+      sb.append("es: ");
+      sb.append(classes.getFirst());
+      sb.append(" and ");
+      sb.append(classes.getLast());
+
+    } else {
+      sb.append("es: ");
+
+      for (int i = 0; i < numberOfClasses; i++) {
+        sb.append(classes.get(i));
+        if (i < numberOfClasses - 1) {
+          sb.append(", ");
+        }
+        if (i == numberOfClasses - 2) {
+          sb.append("and ");
+        }
+      }
+    }
+
+    sb.append('.');
+    return sb.toString();
   }
 
   /**
@@ -84,14 +151,28 @@ public class Student extends Human {
       return;
     }
 
+    ArrayList<String> classes = new ArrayList<>(Arrays.asList(args).subList(3, args.length));
+
     Student student;
     try {
-      student = new Student(name, new ArrayList<>(), gpa, gender);
+      student = new Student(name, classes, gpa, gender);
 
     } catch (InvalidGPAException e) {
       System.err.println("Invalid GPA: " + e.getInvalidGPA() + ".  Valid GPAS are in the range of 0.0-4.0");
       return;
+
+    } catch (UnsupportedGenderException e) {
+      System.err.println("Unsupported Gender: " + e.getUnsupportedGender());
+      return;
     }
     System.out.println(student);
+  }
+
+  public String getPronoun() {
+    return switch (this.gender) {
+      case FEMALE -> "She";
+      case MALE -> "He";
+      case OTHER -> "They";
+    };
   }
 }
