@@ -69,7 +69,7 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
         String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.definedWordAs(word, definition)));
+        assertThat(out, out, containsString(Messages.createdFlight(word, definition)));
 
         result = invokeMain( Project4.class, HOSTNAME, PORT, word );
 

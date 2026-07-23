@@ -76,7 +76,7 @@ public class Project4 {
             } else {
                 // Post the word/definition pair
                 client.addDictionaryEntry(word, definition);
-                message = Messages.definedWordAs(word, definition);
+                message = Messages.createdFlight(word, definition);
             }
 
         } catch (IOException | ParserException ex ) {
