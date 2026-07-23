@@ -5,7 +5,6 @@ import edu.pdx.cs.joy.ParserException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
-import java.util.Map;
 
 /**
  * The main class that parses the command line and communicates with the
@@ -19,7 +18,7 @@ public class Project4 {
         String hostName = null;
         String portString = null;
         String airlineName = null;
-        String flightNumber = null;
+        String flightNumberString = null;
 
         for (String arg : args) {
             if (hostName == null) {
@@ -31,8 +30,8 @@ public class Project4 {
             } else if (airlineName == null) {
                 airlineName = arg;
 
-            } else if (flightNumber == null) {
-                flightNumber = arg;
+            } else if (flightNumberString == null) {
+                flightNumberString = arg;
 
             } else {
                 usage("Extraneous command line argument: " + arg);
@@ -65,23 +64,22 @@ public class Project4 {
 
         String message;
         try {
-            if (airlineName == null) {
-                // Print all word/definition pairs
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                PrettyPrinter pretty = new PrettyPrinter(sw);
-                pretty.dump(dictionary);
-                message = sw.toString();
+          if (flightNumberString == null) {
+              // Print all dictionary entries
+              Airline airline = client.getAirline(airlineName);
 
-            } else if (flightNumber == null) {
-                // Print all dictionary entries
-                message = PrettyPrinter.formatDictionaryEntry(airlineName, client.getAirline(airlineName));
+              StringWriter sw = new StringWriter();
+              PrettyPrinter pretty = new PrettyPrinter(sw);
+              pretty.dump(airline);
 
-            } else {
-                // Post the word/definition pair
-                client.addFlight(airlineName, flightNumber);
-                message = Messages.createdFlight(airlineName, flightNumber);
-            }
+              message = sw.toString();
+
+          } else {
+              // Post the word/definition pair
+              int flightNumber =  Integer.parseInt(flightNumberString);
+              client.addFlight(airlineName, flightNumber);
+              message = Messages.createdFlight(airlineName, flightNumber);
+          }
 
         } catch (IOException | ParserException ex ) {
             error("While contacting server: " + ex.getMessage());

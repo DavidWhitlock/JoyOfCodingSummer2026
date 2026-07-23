@@ -59,9 +59,9 @@ class Project4IT extends InvokeMainTestCase {
     @Test
     void test4AddFlight() {
         String airlineName = "AIRLINE NAME";
-        String flightNumber = "FLIGHT NUMBER";
+        int flightNumber = 67;
 
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, airlineName, flightNumber );
+        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, airlineName, String.valueOf(flightNumber) );
 
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
@@ -73,6 +73,7 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
         out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(airlineName, flightNumber)));
+        assertThat(out, out, containsString(airlineName));
+        assertThat(out, out, containsString(String.valueOf(flightNumber)));
     }
 }

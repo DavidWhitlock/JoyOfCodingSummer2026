@@ -37,11 +37,13 @@ class AirlineRestClientIT {
   void test2AddFlight() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
     String airlineName = "AIRLINE";
-    String flightNumber = "FLIGHT NUMBER";
+    int flightNumber = 56;
     client.addFlight(airlineName, flightNumber);
 
-    String airline = client.getAirline(airlineName);
-    assertThat(airline, equalTo(flightNumber));
+    Airline airline = client.getAirline(airlineName);
+    assertThat(airline.getName(), equalTo(airlineName));
+    assertThat(airline.getFlights().size(), equalTo(1));
+    assertThat(airline.getFlights().iterator().next().getNumber(), equalTo(flightNumber));
   }
 
   @Test
@@ -50,7 +52,7 @@ class AirlineRestClientIT {
     String emptyString = "";
 
     HttpRequestHelper.RestException ex =
-      assertThrows(HttpRequestHelper.RestException.class, () -> client.addFlight(emptyString, emptyString));
+      assertThrows(HttpRequestHelper.RestException.class, () -> client.addFlight(emptyString, 0));
     assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
     assertThat(ex.getMessage(), containsString(Messages.missingRequiredParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)));
   }}

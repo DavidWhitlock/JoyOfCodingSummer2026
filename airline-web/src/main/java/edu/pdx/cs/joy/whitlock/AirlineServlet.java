@@ -20,7 +20,7 @@ public class AirlineServlet extends HttpServlet {
   static final String AIRLINE_NAME_PARAMETER = "airline";
   static final String FLIGHT_NUMBER_PARAMETER = "flightNumber";
 
-  private final Map<String, String> airlines = new HashMap<>();
+  private final Map<String, Airline> airlines = new HashMap<>();
 
   /**
    * Handles an HTTP GET request from a client by writing an airline to the HTTP response.
@@ -62,10 +62,18 @@ public class AirlineServlet extends HttpServlet {
 
       log("POST " + airlineName + " -> " + flightNumberString);
 
-      this.airlines.put(airlineName, flightNumberString);
+      Airline airline = this.airlines.get( airlineName );
+      if ( airline == null ) {
+        airline = new Airline(airlineName);
+        this.airlines.put( airlineName, airline );
+      }
+
+      int flightNumber = Integer.parseInt( flightNumberString );
+
+      airline.addFlight(new Flight(flightNumber));
 
       PrintWriter pw = response.getWriter();
-      pw.println(Messages.createdFlight(airlineName, flightNumberString));
+      pw.println(Messages.createdFlight(airlineName, flightNumber));
       pw.flush();
 
       response.setStatus( HttpServletResponse.SC_OK);
@@ -109,8 +117,8 @@ public class AirlineServlet extends HttpServlet {
    *
    * The text of the message is formatted with {@link TextDumper}
    */
-  private void writeAirline(String word, HttpServletResponse response) throws IOException {
-    String airline = this.airlines.get(word);
+  private void writeAirline(String airlineName, HttpServletResponse response) throws IOException {
+    Airline airline = this.airlines.get(airlineName);
 
     if (airline == null) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -118,26 +126,11 @@ public class AirlineServlet extends HttpServlet {
     } else {
       PrintWriter pw = response.getWriter();
 
-      Map<String, String> wordDefinition = Map.of(word, airline);
       TextDumper dumper = new TextDumper(pw);
-      dumper.dump(wordDefinition);
+      dumper.dump(airline);
 
       response.setStatus(HttpServletResponse.SC_OK);
     }
-  }
-
-  /**
-   * Writes all of the dictionary entries to the HTTP response.
-   *
-   * The text of the message is formatted with {@link TextDumper}
-   */
-  private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
-  {
-      PrintWriter pw = response.getWriter();
-      TextDumper dumper = new TextDumper(pw);
-      dumper.dump(airlines);
-
-      response.setStatus( HttpServletResponse.SC_OK );
   }
 
   /**
@@ -157,8 +150,8 @@ public class AirlineServlet extends HttpServlet {
   }
 
   @VisibleForTesting
-  String getAirline(String word) {
-      return this.airlines.get(word);
+  Airline getAirline(String airlineName) {
+      return this.airlines.get(airlineName);
   }
 
   @Override

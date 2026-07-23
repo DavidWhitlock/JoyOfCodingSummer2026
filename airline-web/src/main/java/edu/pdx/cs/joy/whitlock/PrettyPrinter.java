@@ -4,7 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Map;
+import java.util.Collection;
 
 public class PrettyPrinter {
   private final Writer writer;
@@ -15,28 +15,21 @@ public class PrettyPrinter {
     return String.format( "Dictionary on server contains %d words", count );
   }
 
-  @VisibleForTesting
-  static String formatDictionaryEntry(String word, String definition )
-  {
-    return String.format("  %s -> %s", word, definition);
-  }
-
 
   public PrettyPrinter(Writer writer) {
     this.writer = writer;
   }
 
-  public void dump(Map<String, String> dictionary) {
+  public void dump(Airline airline) {
     try (
       PrintWriter pw = new PrintWriter(this.writer)
     ) {
 
-      pw.println(formatWordCount(dictionary.size()));
+      Collection<Flight> flights = airline.getFlights();
+      pw.println(airline.getName() + "with " + flights.size() + " flights\n");
 
-      for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-        String word = entry.getKey();
-        String definition = entry.getValue();
-        pw.println(formatDictionaryEntry(word, definition));
+      for (Flight flight : flights) {
+        pw.println("  Flight number " + flight.getNumber());
       }
 
       pw.flush();
