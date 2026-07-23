@@ -36,9 +36,7 @@ public class AirlineServlet extends HttpServlet {
           writeAirline(airlineName, response);
 
       } else {
-        // Replace this with a missingRequiredParameter(call)
-          log("GET all dictionary entries");
-          writeAllDictionaryEntries(response);
+        missingRequiredParameter(response, AIRLINE_NAME_PARAMETER);
       }
   }
 

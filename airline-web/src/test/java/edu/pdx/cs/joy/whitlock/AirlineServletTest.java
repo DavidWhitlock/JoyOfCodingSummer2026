@@ -21,10 +21,12 @@ import static org.mockito.Mockito.*;
 class AirlineServletTest {
 
   @Test
-  void initiallyServletContainsNoDictionaryEntries() throws IOException {
+  void missingAirlineNameParameterReturnsPreconditionFailedStatusCode() throws IOException {
     AirlineServlet servlet = new AirlineServlet();
 
     HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(null);
+
     HttpServletResponse response = mock(HttpServletResponse.class);
     PrintWriter pw = mock(PrintWriter.class);
 
@@ -32,9 +34,8 @@ class AirlineServletTest {
 
     servlet.doGet(request, response);
 
-    // Nothing is written to the response's PrintWriter
-    verify(pw, never()).println(anyString());
-    verify(response).setStatus(HttpServletResponse.SC_OK);
+    String message = Messages.missingRequiredParameter(AirlineServlet.AIRLINE_NAME_PARAMETER);
+    verify(response).sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
   }
 
   @Test

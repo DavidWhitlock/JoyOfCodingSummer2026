@@ -18,8 +18,8 @@ public class Project4 {
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
-        String word = null;
-        String definition = null;
+        String airlineName = null;
+        String flightNumber = null;
 
         for (String arg : args) {
             if (hostName == null) {
@@ -28,11 +28,11 @@ public class Project4 {
             } else if ( portString == null) {
                 portString = arg;
 
-            } else if (word == null) {
-                word = arg;
+            } else if (airlineName == null) {
+                airlineName = arg;
 
-            } else if (definition == null) {
-                definition = arg;
+            } else if (flightNumber == null) {
+                flightNumber = arg;
 
             } else {
                 usage("Extraneous command line argument: " + arg);
@@ -44,7 +44,11 @@ public class Project4 {
             return;
 
         } else if ( portString == null) {
-            usage( "Missing port" );
+            usage("Missing port");
+            return;
+
+        } else if (airlineName == null) {
+            usage( "Missing airline name" );
             return;
         }
 
@@ -61,7 +65,7 @@ public class Project4 {
 
         String message;
         try {
-            if (word == null) {
+            if (airlineName == null) {
                 // Print all word/definition pairs
                 Map<String, String> dictionary = client.getAllDictionaryEntries();
                 StringWriter sw = new StringWriter();
@@ -69,14 +73,14 @@ public class Project4 {
                 pretty.dump(dictionary);
                 message = sw.toString();
 
-            } else if (definition == null) {
+            } else if (flightNumber == null) {
                 // Print all dictionary entries
-                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
+                message = PrettyPrinter.formatDictionaryEntry(airlineName, client.getAirline(airlineName));
 
             } else {
                 // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.createdFlight(word, definition);
+                client.addFlight(airlineName, flightNumber);
+                message = Messages.createdFlight(airlineName, flightNumber);
             }
 
         } catch (IOException | ParserException ex ) {
