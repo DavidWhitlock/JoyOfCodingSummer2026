@@ -2,6 +2,7 @@ package edu.pdx.cs.joy.whitlock;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,5 +26,22 @@ public class CalculatorActivity extends AppCompatActivity {
 
     public void backToMain(View view) {
         finish();
+    }
+
+    public void calculateSum(View view) {
+        EditText leftWidget = findViewById(R.id.leftOperand);
+        EditText rightWidget = findViewById(R.id.rightOperand);
+
+        String leftString = leftWidget.getText().toString();
+        String rightString = rightWidget.getText().toString();
+
+        int leftOperand = Integer.parseInt(leftString);
+        int rightOperand = Integer.parseInt(rightString);
+
+        int sum = leftOperand + rightOperand;
+
+        EditText sumWidget = findViewById(R.id.sum);
+        sumWidget.setText(String.valueOf(sum));
+
     }
 }
