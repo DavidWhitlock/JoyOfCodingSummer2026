@@ -18,7 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +26,7 @@ import java.io.PrintWriter;
 public class MainActivity extends AppCompatActivity {
 
     private static final int GET_SUM = 42;
-    private ArrayAdapter<Integer> sums;
+    private ArrayAdapter<Flight> flights;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ListView sumsWidget = findViewById(R.id.sums);
-        sums = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        sumsWidget.setAdapter(sums);
+        flights = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        sumsWidget.setAdapter(flights);
 
         try {
             readFromSumsFile();
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         try (BufferedReader br = new BufferedReader(new FileReader(sumsFile))) {
             for (String line = br.readLine(); line != null; line = br.readLine()) {
                 int sum = Integer.parseInt(line);
-                this.sums.add(sum);
+                this.flights.add(new Flight(sum));
             }
         }
     }
@@ -73,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == GET_SUM) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
-                    int sum = data.getIntExtra(CalculatorActivity.SUM_VALUE, 0);
-                    this.sums.add(sum);
+                    Flight flight = data.getSerializableExtra(CalculatorActivity.SUM_VALUE, Flight.class);
+                    this.flights.add(flight);
                     try {
                         writeSumsToFile();
                     } catch (IOException e) {
@@ -88,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
     private void writeSumsToFile() throws IOException {
         File sumsFile = getSumsFile();
         try (PrintWriter pw = new PrintWriter(new FileWriter(sumsFile))) {
-            for (int i = 0; i < this.sums.getCount(); i++) {
-                Integer sum = this.sums.getItem(i);
-                if (sum != null) {
-                    pw.println(sum);
+            for (int i = 0; i < this.flights.getCount(); i++) {
+                Flight flight = this.flights.getItem(i);
+                if (flight != null) {
+                    pw.println(flight.getNumber());
                 }
             }
             pw.flush();

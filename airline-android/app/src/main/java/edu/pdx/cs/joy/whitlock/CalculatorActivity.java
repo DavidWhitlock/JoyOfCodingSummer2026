@@ -30,7 +30,9 @@ public class CalculatorActivity extends AppCompatActivity {
 
     public void backToMain(View view) {
         Intent intent = new Intent();
-        intent.putExtra(SUM_VALUE, this.sum);
+
+        Flight flight = new Flight(this.sum);
+        intent.putExtra(SUM_VALUE, flight);
         setResult(RESULT_OK, intent);
         finish();
     }
