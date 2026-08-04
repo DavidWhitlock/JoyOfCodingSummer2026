@@ -8,7 +8,7 @@
     tools:context=".CalculatorActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/backToMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_to_main"
@@ -16,14 +16,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/calculator" />
 
     <LinearLayout
+        android:id="@+id/calculator"
         android:layout_width="409dp"
-        android:layout_height="340dp"
+        android:layout_height="62dp"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/backToMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+>
 
         <EditText
             android:id="@+id/editTextText"
@@ -32,16 +36,16 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="text"
-            android:textAlignment="center"
-            android:text="Number" />
+            android:text="Number"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="center"
-            android:text="+" />
+            android:text="+"
+            android:textAlignment="center" />
 
         <EditText
             android:id="@+id/editTextText2"
@@ -50,8 +54,8 @@
             android:layout_weight="1"
             android:ems="4"
             android:inputType="text"
-            android:textAlignment="center"
-            android:text="Number" />
+            android:text="Number"
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/button2"
@@ -66,9 +70,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="none"
             android:ems="5"
-            android:textAlignment="center"
-            android:text="Sum" />
+            android:inputType="none"
+            android:text="Sum"
+            android:textAlignment="center" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
