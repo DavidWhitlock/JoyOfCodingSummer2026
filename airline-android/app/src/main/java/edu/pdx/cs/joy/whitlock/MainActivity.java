@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void sayHello(View view) {
+    public void launchCalculator(View view) {
         Toast.makeText(this, "Hello!", Toast.LENGTH_LONG).show();
     }
 }

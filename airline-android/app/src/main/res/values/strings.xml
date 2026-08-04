@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Airline</string>
-    <string name="hello_everyone">Hello Everyone!</string>
-    <string name="say_hello">Say Hello</string>
+    <string name="welcome">Welcome to the Calculator!</string>
+    <string name="launch_calculator">Launch Calculator</string>
 </resources>
